@@ -4,6 +4,8 @@ import com.academy.java.spring.model.Computer;
 import com.academy.java.spring.service.ComputerService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/computer")
 public class ComputerController {
