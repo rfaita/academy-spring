@@ -4,7 +4,7 @@ import com.academy.java.spring.model.Computer;
 import com.academy.java.spring.service.ComputerService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/computer")
@@ -40,6 +40,14 @@ public class ComputerController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         service.delete(id);
+    }
+
+
+    @GetMapping()
+    public List<Computer> findAllByProcessorContaining(@RequestParam String processor) {
+
+        return service.findAllByProcessorContaining(processor);
+
     }
 
 

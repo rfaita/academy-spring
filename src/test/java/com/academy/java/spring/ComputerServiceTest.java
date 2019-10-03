@@ -15,14 +15,14 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
-import static com.academy.java.spring.helper.ComputerHelper.defaultComputerAnswer;
-import static com.academy.java.spring.helper.ComputerHelper.newComputer;
+import static com.academy.java.spring.helper.ComputerHelper.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class ComputerServiceTest {
@@ -38,7 +38,6 @@ public class ComputerServiceTest {
     @Before
     public void setUp() {
         this.service = new ComputerService(repository);
-
     }
 
 
@@ -89,4 +88,44 @@ public class ComputerServiceTest {
         Assert.assertEquals(Integer.valueOf(2), ret.getHd());
 
     }
+
+
+    @Test
+    public void testComputerDeleteSuccess() {
+        //setup
+        willDoNothing().given(repository).deleteById("4321");
+
+        //exec
+        service.delete("4321");
+
+        //assert
+        ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
+
+        verify(repository, times(1)).deleteById(argument.capture());
+        Assert.assertEquals("4321", argument.getValue());
+    }
+
+    @Test
+    public void testComputerFindAllSuccess() {
+        //setup
+        given(repository.findAll()).willReturn(newComputerList(2, 11));
+
+        //exec
+        List<Computer> ret = service.findAll();
+
+        //assert
+        Assert.assertEquals(11, ret.size());
+
+        int index = 1;
+        for (Computer currentComputer : ret) {
+            Assert.assertEquals("processor" + index++, currentComputer.getProcessor());
+            Assert.assertTrue(currentComputer.getHd() >= 0);
+            Assert.assertTrue(currentComputer.getHd() < 100);
+            Assert.assertTrue(currentComputer.getRam() >= 0);
+            Assert.assertTrue(currentComputer.getRam() < 100);
+        }
+
+
+    }
+
 }

@@ -45,4 +45,9 @@ public class ComputerService {
         return repository.findAll();
     }
 
+    public List<Computer> findAllByProcessorContaining(String processor) {
+
+        return repository.findAllByProcessorContaining(processor);
+
+    }
 }
