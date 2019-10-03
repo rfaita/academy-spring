@@ -13,6 +13,12 @@ public final class ComputerHelper {
     private ComputerHelper() {
     }
 
+    public static Computer newComputer(String id, String processor, Integer ram, Integer hd) {
+        Computer ret = newComputer(processor, ram, hd);
+        ret.setId(id);
+        return ret;
+    }
+
     public static Computer newComputer(String processor, Integer ram, Integer hd) {
         Computer ret = new Computer();
         ret.setHd(hd);

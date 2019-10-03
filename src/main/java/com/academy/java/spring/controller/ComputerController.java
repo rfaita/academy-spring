@@ -2,6 +2,7 @@ package com.academy.java.spring.controller;
 
 import com.academy.java.spring.model.Computer;
 import com.academy.java.spring.service.ComputerService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,11 +45,14 @@ public class ComputerController {
 
 
     @GetMapping()
-    public List<Computer> findAllByProcessorContaining(@RequestParam String processor) {
+    public Page<Computer> findAll(@RequestParam Integer page,
+                                  @RequestParam(defaultValue = "processor") String orderBy) {
 
-        return service.findAllByProcessorContaining(processor);
+        return service.findAll(page, orderBy);
 
     }
+
+
 
 
 }

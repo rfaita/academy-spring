@@ -2,14 +2,12 @@ package com.academy.java.spring.service;
 
 import com.academy.java.spring.model.Computer;
 import com.academy.java.spring.repository.ComputerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ComputerService {
@@ -41,8 +39,12 @@ public class ComputerService {
         repository.deleteById(id);
     }
 
-    public List<Computer> findAll() {
-        return repository.findAll();
+    public Page<Computer> findAll(Integer page) {
+        return repository.findAll(PageRequest.of(page, 3));
+    }
+
+    public Page<Computer> findAll(Integer page, String orderBy) {
+        return repository.findAll(PageRequest.of(page, 3, Sort.by(Sort.Order.asc(orderBy))));
     }
 
     public List<Computer> findAllByProcessorContaining(String processor) {
